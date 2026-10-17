@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#11140f">
+  <meta name="description" content="Интерактивный каталог оружия Counter-Strike 2.">
+  <title>Арсенал CS2 — каталог оружия</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="site-shell">
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="Арсенал CS2, на главную">
+        <span class="brand-mark">A</span>
+        <span>АРСЕНАЛ<span class="brand-dot">.</span></span>
+        <span class="brand-divider"></span>
+        <span class="brand-game">COUNTER-STRIKE 2</span>
+      </a>
+      <div class="topbar-right">
+        <span class="live-indicator"><i></i> БАЗА ПРЕДМЕТОВ</span>
+        <span class="topbar-index">01 / 07</span>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="intro" aria-labelledby="page-title">
+        <div class="intro-copy">
+          <p class="eyebrow"><span>FIELD MANUAL</span><span class="eyebrow-rule"></span><span>CS2 · 2026</span></p>
+          <h1 id="page-title">ВЫБЕРИ<br><span>СВОЁ ОРУЖИЕ</span></h1>
+          <p class="intro-note">Полный арсенал. Никакого шума.</p>
+        </div>
+        <div class="intro-aside" aria-label="Сводка каталога">
+          <span class="aside-label">В КАТАЛОГЕ</span>
+          <strong id="total-count">--</strong>
+          <span class="aside-sub">ЕДИНИЦ АРСЕНАЛА</span>
+          <span class="aside-crosshair" aria-hidden="true">+</span>
+        </div>
+        <div class="intro-stamp" aria-hidden="true">CS<br><b>02</b></div>
+      </section>
+
+      <section class="catalog" aria-label="Каталог оружия">
+        <div class="catalog-head">
+          <div class="section-title">
+            <span class="section-number">01</span>
+            <h2>КАТАЛОГ</h2>
+            <span class="section-rule"></span>
+            <span class="results-count" id="results-count">ЗАГРУЗКА</span>
+          </div>
+          <label class="search-box">
+            <span class="search-icon" aria-hidden="true">⌕</span>
+            <input id="search" type="search" placeholder="Найти оружие..." autocomplete="off" aria-label="Поиск оружия">
+            <kbd>/</kbd>
+          </label>
+        </div>
+
+        <div class="filter-row">
+          <div class="filters" id="filters" role="group" aria-label="Категории оружия">
+            <button class="filter-button is-active" type="button" data-category="all">ВСЁ <span>--</span></button>
+            <button class="filter-button" type="button" data-category="Pistols">ПИСТОЛЕТЫ <span>--</span></button>
+            <button class="filter-button" type="button" data-category="SMGs">ПП <span>--</span></button>
+            <button class="filter-button" type="button" data-category="Rifles">ВИНТОВКИ <span>--</span></button>
+            <button class="filter-button" type="button" data-category="Heavy">ТЯЖЁЛОЕ <span>--</span></button>
+            <button class="filter-button" type="button" data-category="Knives">НОЖИ <span>--</span></button>
+            <button class="filter-button" type="button" data-category="Grenades">ГРАНАТЫ <span>--</span></button>
+            <button class="filter-button" type="button" data-category="Equipment">ДРУГОЕ <span>--</span></button>
+          </div>
+          <label class="favorites-toggle">
+            <input id="favorites-only" type="checkbox">
+            <span class="toggle-track"><i></i></span>
+            <span>ИЗБРАННОЕ</span>
+          </label>
+        </div>
+
+        <div class="catalog-meta">
+          <span>ОРУЖИЕ И СНАРЯЖЕНИЕ</span>
+          <span class="meta-right">СОРТИРОВКА <b>ПО АЛФАВИТУ ↕</b></span>
+        </div>
+        <div class="weapon-grid" id="weapon-grid" aria-live="polite">
+          <div class="loading-state"><span class="loader"></span><span>ЗАПРОС К БАЗЕ АРСЕНАЛА...</span></div>
+        </div>
+        <div class="empty-state" id="empty-state" hidden>
+          <span class="empty-mark">Ø</span>
+          <strong>НИЧЕГО НЕ НАЙДЕНО</strong>
+          <span>Измени запрос или выбери другую категорию.</span>
+          <button id="reset-filters" type="button">СБРОСИТЬ ФИЛЬТРЫ ↗</button>
+        </div>
+        <div class="error-state" id="error-state" hidden>
+          <strong>НЕ УДАЛОСЬ ЗАГРУЗИТЬ КАТАЛОГ</strong>
+          <span>Проверь подключение к интернету и попробуй ещё раз.</span>
+          <button id="retry-load" type="button">ПОВТОРИТЬ ЗАПРОС ↗</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>АРСЕНАЛ CS2 <span class="footer-sep">/</span> СПРАВОЧНИК ОРУЖИЯ</span>
+      <span>ДАННЫЕ И ИЗОБРАЖЕНИЯ: COMMUNITY CS2 API <span class="footer-sep">·</span> НЕОФИЦИАЛЬНЫЙ ПРОЕКТ</span>
+      <a href="#top">НАВЕРХ ↑</a>
+    </footer>
+  </div>
+
+  <dialog class="weapon-dialog" id="weapon-dialog" aria-labelledby="dialog-name">
+    <button class="dialog-close" id="dialog-close" type="button" aria-label="Закрыть">×</button>
+    <div class="dialog-visual"><img id="dialog-image" alt=""><span class="dialog-watermark">CS2</span></div>
+    <div class="dialog-content">
+      <span class="dialog-kicker" id="dialog-category"></span>
+      <h2 id="dialog-name"></h2>
+      <p id="dialog-description"></p>
+      <div class="dialog-bottom"><span>COUNTER-STRIKE 2</span><span id="dialog-id"></span></div>
+    </div>
+  </dialog>
+</body>
+</html>
